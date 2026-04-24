@@ -1,4 +1,4 @@
 package com.appointment.userdept.domain.entity;
 
-public record HealthInsurance() {
+public record HealthInsurance(Long id, String name) {
 }
