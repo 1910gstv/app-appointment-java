@@ -5,10 +5,9 @@ import com.appointment.userdept.application.gateways.UserGateway;
 import com.appointment.userdept.domain.entity.User;
 import com.appointment.userdept.infra.persistance.UserEntity;
 import com.appointment.userdept.infra.persistance.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 public class UserRepositoryGateway implements UserGateway {
 
@@ -34,16 +33,22 @@ public class UserRepositoryGateway implements UserGateway {
     }
 
     @Override
-    public UserDetails findByEmail(String email){
-        UserDetails user = userRepository.findByEmail(email);
-        return user;
+    public User findByEmail(String email){
+        UserEntity user = userRepository.findByEmail(email);
+        return userEntityMapper.toDomain(user);
     }
 
     @Override
-    public User editUser(String userId, Map<String, Object> newData){
-        
+    public User editUser(Long id,User newData){
+        UserEntity entity = userEntityMapper.toEntity(newData);
+        UserEntity savedEntity = userRepository.save(entity);
+        return userEntityMapper.toDomain(savedEntity);
+    }
 
-        return userEntityMapper.toDomain(updatedObj);
+    @Override
+    public Optional<User> findById(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        return userEntityMapper.toDomainOptional(user);
     }
 
 }

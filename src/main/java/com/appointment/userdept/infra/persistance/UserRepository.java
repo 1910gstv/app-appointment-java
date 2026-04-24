@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
     List<UserEntity> findAll();
-    UserDetails findByEmail(String email);
+    UserEntity findByEmail(String email);
 }
